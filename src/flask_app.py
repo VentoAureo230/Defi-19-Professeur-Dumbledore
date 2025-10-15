@@ -83,7 +83,7 @@ def create_app():
         texte, effet = spell_recognizer.recognize_spell_from_audio()
         if not effet:
             effet = "Aucune formule magique reconnue."
-        
+
         return render_template_string(html_template, texte=texte, effet=effet)
 
     @app.route("/health")
