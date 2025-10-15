@@ -360,11 +360,20 @@ jobs:
         # Attendre le démarrage
         sleep 30
         
-        # Test health check
-        docker exec $container_id curl -f http://localhost:5000/health || exit 1
+        # Vérifier que le container est en cours d'exécution
+        if ! docker ps | grep -q $container_id; then
+          echo "❌ Container not running"
+          docker logs $container_id
+          exit 1
+        fi
         
-        # Test page principale
-        docker exec $container_id curl -f http://localhost:5000/ || exit 1
+        # Test health check depuis l'hôte
+        curl -f http://localhost:5000/health || exit 1
+        echo "✅ Health check passed"
+        
+        # Test page principale depuis l'hôte
+        curl -f http://localhost:5000/ || exit 1
+        echo "✅ Main page test passed"
         
         # Nettoyage
         docker stop $container_id

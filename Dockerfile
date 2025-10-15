@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y \
     portaudio19-dev \
     python3-dev \
     libasound2-dev \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copie du fichier requirements en premier pour optimiser le cache Docker
@@ -49,7 +50,7 @@ EXPOSE 5000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:5000/health || exit 1
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:5000/health', timeout=5)" || exit 1
 
 # Commande par défaut
 CMD ["python", "main.py"]
