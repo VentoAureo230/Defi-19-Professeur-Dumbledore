@@ -1,0 +1,39 @@
+# Configuration Coverage.py pour le projet Harry Potter Spell Recognition
+
+[run]
+source = src/
+omit = 
+    */tests/*
+    */__pycache__/*
+    */venv/*
+    */env/*
+    */.venv/*
+    */migrations/*
+    */node_modules/*
+    */static/*
+    setup.py
+    manage.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if self.debug:
+    if settings.DEBUG
+    raise AssertionError
+    raise NotImplementedError
+    if 0:
+    if __name__ == .__main__.:
+    class .*\bProtocol\):
+    @(abc\.)?abstractmethod
+
+show_missing = True
+skip_covered = False
+precision = 2
+
+[xml]
+output = coverage.xml
+
+[html]
+directory = htmlcov
+title = Harry Potter Spell Recognition Coverage Report

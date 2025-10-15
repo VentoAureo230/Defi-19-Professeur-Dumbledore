@@ -104,12 +104,33 @@ jobs:
     - name: 🧪 Run unit tests with coverage
       continue-on-error: true
       run: |
+        echo "🧪 Running tests with coverage..."
         python -m pytest tests/unit/ -v \
           --cov=src \
           --cov-report=xml:coverage.xml \
           --cov-report=html:htmlcov \
           --cov-report=term-missing \
-          --cov-fail-under=70
+          --cov-fail-under=70 \
+          --cov-config=.coveragerc \
+          --junit-xml=test-results.xml
+        
+        echo "📊 Verifying coverage and test result files generation..."
+        if [ -f "coverage.xml" ]; then
+          echo "✅ Coverage XML file generated successfully"
+          echo "📄 Coverage file size: $(du -h coverage.xml)"
+          echo "📋 First 20 lines of coverage.xml:"
+          head -20 coverage.xml
+        else
+          echo "❌ Coverage XML file not generated"
+          ls -la
+        fi
+        
+        if [ -f "test-results.xml" ]; then
+          echo "✅ Test results XML file generated successfully"
+          echo "📄 Test results file size: $(du -h test-results.xml)"
+        else
+          echo "❌ Test results XML file not generated"
+        fi
     
     - name: 📊 Upload coverage reports
       uses: actions/upload-artifact@v4
@@ -118,6 +139,7 @@ jobs:
         name: coverage-reports
         path: |
           coverage.xml
+          test-results.xml
           htmlcov/
         retention-days: 7
     
@@ -262,6 +284,23 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: coverage-reports
+        path: .
+    
+    - name: 🔍 Verify coverage file exists
+      run: |
+        echo "📁 Listing files in current directory:"
+        ls -la
+        echo "🔍 Looking for coverage.xml:"
+        find . -name "coverage.xml" -type f
+        if [ -f "coverage.xml" ]; then
+          echo "✅ Coverage file found"
+          echo "📊 Coverage file size: $(du -h coverage.xml)"
+          echo "📄 First few lines of coverage.xml:"
+          head -10 coverage.xml
+        else
+          echo "❌ Coverage file not found"
+          exit 1
+        fi
     
     - name: 🔍 SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v3.1.0
@@ -273,7 +312,9 @@ jobs:
         args: >
           -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
           -Dsonar.organization=ventoaureo230-1
-          -Dsonar.python.coverage.reportPaths=coverage.xml
+          -Dsonar.python.coverage.reportPaths=./coverage.xml
+          -Dsonar.coverage.exclusions=tests/**,**/__init__.py,main.py
+          -Dsonar.verbose=true
 
   # =========================================================================== 
   # JOB 6: PACKAGING - Création du package wheel
