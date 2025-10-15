@@ -11,11 +11,11 @@ from src.spell_recognition import SpellRecognizer
 def create_app():
     """Factory pour créer l'application Flask."""
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'your-secret-key-change-in-production'
-    
+    app.config["SECRET_KEY"] = "your-secret-key-change-in-production"
+
     # Protection CSRF activée pour la sécurité
     csrf = CSRFProtect(app)
-    
+
     spell_recognizer = SpellRecognizer()
 
     # Template HTML intégré
