@@ -3,6 +3,13 @@
 [![CI/CD Pipeline](https://github.com/VentoAureo230/Defi-19-Professeur-Dumbledore/actions/workflows/ci.yml/badge.svg)](https://github.com/VentoAureo230/Defi-19-Professeur-Dumbledore/actions/workflows/ci.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=VentoAureo230_Defi-19-Professeur-Dumbledore&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=VentoAureo230_Defi-19-Professeur-Dumbledore)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=VentoAureo230_Defi-19-Professeur-Dumbledore&metric=coverage)](https://sonarcloud.io/summary/new_code?id=VentoAureo230_Defi-19-Professeur-Dumbledore)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=VentoAureo230_Defi-19-Professeur-Dumbledore&metric=bugs)](https://sonarcloud.io/summary/new_code?id=VentoAureo230_Defi-19-Professeur-Dumbledore)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=VentoAureo230_Defi-19-Professeur-Dumbledore&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=VentoAureo230_Defi-19-Professeur-Dumbledore)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=VentoAureo230_Defi-19-Professeur-Dumbledore&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=VentoAureo230_Defi-19-Professeur-Dumbledore)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=VentoAureo230_Defi-19-Professeur-Dumbledore&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=VentoAureo230_Defi-19-Professeur-Dumbledore)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=VentoAureo230_Defi-19-Professeur-Dumbledore&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=VentoAureo230_Defi-19-Professeur-Dumbledore)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=VentoAureo230_Defi-19-Professeur-Dumbledore&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=VentoAureo230_Defi-19-Professeur-Dumbledore)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=VentoAureo230_Defi-19-Professeur-Dumbledore&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=VentoAureo230_Defi-19-Professeur-Dumbledore)
 
 Application web Flask de reconnaissance vocale des sorts Harry Potter avec CI/CD complète.
 
