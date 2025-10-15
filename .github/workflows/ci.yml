@@ -16,7 +16,7 @@ on:
 env:
   PYTHON_VERSION: '3.11'
   DOCKER_IMAGE_NAME: harrypotter-spell-voice
-  SONAR_PROJECT_KEY: harrypotter-spell-voice
+  SONAR_PROJECT_KEY: VentoAureo230_Defi-19-Professeur-Dumbledore
 
 # Jobs de la pipeline
 jobs:
@@ -264,13 +264,15 @@ jobs:
         name: coverage-reports
     
     - name: 🔍 SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@master
+      uses: SonarSource/sonarcloud-github-action@v3.1.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
+        projectBaseDir: .
         args: >
           -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
+          -Dsonar.organization=ventoaureo230-1
           -Dsonar.python.coverage.reportPaths=coverage.xml
 
   # =========================================================================== 
@@ -357,22 +359,47 @@ jobs:
         container_id=$(docker run -d -p 5000:5000 ${{ env.DOCKER_IMAGE_NAME }}:latest)
         echo "Container ID: $container_id"
         
-        # Attendre le démarrage
-        sleep 30
+        # Attendre que le container soit prêt avec retry
+        echo "⏳ Waiting for container to be ready..."
+        for i in {1..12}; do
+          if docker ps | grep -q $container_id; then
+            echo "✅ Container is running (attempt $i)"
+            break
+          else
+            echo "⏳ Container not ready yet (attempt $i/12)"
+            if [ $i -eq 12 ]; then
+              echo "❌ Container failed to start properly"
+              docker logs $container_id
+              exit 1
+            fi
+            sleep 5
+          fi
+        done
         
-        # Vérifier que le container est en cours d'exécution
-        if ! docker ps | grep -q $container_id; then
-          echo "❌ Container not running"
-          docker logs $container_id
-          exit 1
-        fi
+        # Attendre encore un peu pour que l'application soit prête
+        echo "⏳ Waiting for application to be ready..."
+        sleep 15
         
-        # Test health check depuis l'hôte
-        curl -f http://localhost:5000/health || exit 1
-        echo "✅ Health check passed"
+        # Test health check depuis l'hôte avec retry
+        echo "🔍 Testing health endpoint..."
+        for i in {1..6}; do
+          if curl -f http://localhost:5000/health; then
+            echo "✅ Health check passed (attempt $i)"
+            break
+          else
+            echo "⏳ Health check failed, retrying (attempt $i/6)"
+            if [ $i -eq 6 ]; then
+              echo "❌ Health check failed after all retries"
+              docker logs $container_id
+              exit 1
+            fi
+            sleep 5
+          fi
+        done
         
         # Test page principale depuis l'hôte
-        curl -f http://localhost:5000/ || exit 1
+        echo "🔍 Testing main page..."
+        curl -f http://localhost:5000/ >/dev/null || exit 1
         echo "✅ Main page test passed"
         
         # Nettoyage
