@@ -59,6 +59,10 @@ harrypotter-spell-voice/
 git clone https://github.com/votre-username/harrypotter-spell-voice.git
 cd harrypotter-spell-voice
 
+# Configuration sécurisée (recommandé)
+cp .env.example .env
+# Éditez .env et définissez FLASK_SECRET_KEY avec une clé forte
+
 # Installer les dépendances
 pip install -r requirements.txt
 
@@ -67,6 +71,8 @@ python main.py
 ```
 
 Application disponible sur http://localhost:5000
+
+> **🔒 Sécurité**: En production, définissez toujours `FLASK_SECRET_KEY` via une variable d'environnement sécurisée.
 
 ### Avec Docker
 
@@ -164,11 +170,43 @@ docker inspect harrypotter-spell-voice
 
 ### Variables d'environnement
 
-| Variable | Description | Défaut |
-|----------|-------------|--------|
-| `FLASK_ENV` | Environnement Flask | `production` |
-| `PORT` | Port d'écoute | `5000` |
-| `PYTHONPATH` | Path Python | `/app` |
+| Variable | Description | Défaut | Obligatoire |
+|----------|-------------|--------|-------------|
+| `FLASK_SECRET_KEY` | 🔒 Clé secrète Flask | Auto-générée | ✅ Production |
+| `FLASK_ENV` | Environnement Flask | `production` | ❌ |
+| `PORT` | Port d'écoute | `5000` | ❌ |
+| `PYTHONPATH` | Path Python | `/app` | ❌ |
+
+### 🔒 Configuration sécurisée
+
+#### Génération d'une clé secrète
+
+```bash
+# Générer une clé secrète forte
+python -c "import secrets; print('FLASK_SECRET_KEY=' + secrets.token_hex(32))"
+```
+
+#### En développement
+
+```bash
+# Copier le template de configuration
+cp .env.example .env
+
+# Éditer et ajouter votre clé
+nano .env
+```
+
+#### En production
+
+```bash
+# Définir via variable d'environnement système
+export FLASK_SECRET_KEY="votre_cle_secrete_de_64_caracteres_ici"
+
+# Ou via Docker
+docker run -e FLASK_SECRET_KEY="..." harrypotter-spell-voice
+```
+
+> ⚠️ **IMPORTANT**: Ne jamais committer de vraies clés secrètes dans le code source!
 
 ### SonarCloud
 

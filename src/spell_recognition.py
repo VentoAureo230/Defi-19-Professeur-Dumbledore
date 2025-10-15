@@ -7,35 +7,46 @@ from typing import Dict, List, Optional, Tuple
 import speech_recognition as sr
 
 
+# Constantes pour les noms de sorts (évite la duplication)
+SPELL_IMPERIO = "imperio"
+SPELL_EXPELLIARMUS = "expelliarmus"
+SPELL_LUMOS = "lumos"
+SPELL_NOX = "nox"
+SPELL_ACCIO = "accio"
+SPELL_STUPEFIX = "stupefix"
+SPELL_WINGARDIUM_LEVIOSA = "wingardium leviosa"
+SPELL_AVADA_KEDAVRA = "avada kedavra"
+
+
 class SpellRecognizer:
     """Classe principale pour la reconnaissance de formules magiques."""
 
     def __init__(self):
         """Initialise le reconnaisseur de sorts."""
         self.formules = {
-            "imperio": "👁️ L'adversaire est contrôlé !",
-            "expelliarmus": "🪄 L'adversaire est désarmé !",
-            "lumos": "💡 La baguette s'allume !",
-            "nox": "🌑 La lumière s'éteint !",
-            "accio": "📦 L'objet arrive !",
-            "stupefix": "💥 L'adversaire est étourdi !",
-            "wingardium leviosa": "🕴️ L'objet lévite !",
-            "avada kedavra": "💀 Sortilège de mort !",
+            SPELL_IMPERIO: "👁️ L'adversaire est contrôlé !",
+            SPELL_EXPELLIARMUS: "🪄 L'adversaire est désarmé !",
+            SPELL_LUMOS: "💡 La baguette s'allume !",
+            SPELL_NOX: "🌑 La lumière s'éteint !",
+            SPELL_ACCIO: "📦 L'objet arrive !",
+            SPELL_STUPEFIX: "💥 L'adversaire est étourdi !",
+            SPELL_WINGARDIUM_LEVIOSA: "🕴️ L'objet lévite !",
+            SPELL_AVADA_KEDAVRA: "💀 Sortilège de mort !",
         }
 
         self.variantes = {
-            "imperio": ["imperio", "impero", "imperro"],
-            "expelliarmus": ["expelliarmus", "expeliarmus", "expeliamus"],
-            "lumos": ["lumos", "lumoss", "lumoz"],
-            "nox": ["nox", "noks", "noxe"],
-            "accio": ["accio", "akio", "acio", "action"],
-            "stupefix": ["stupefy", "stupefie", "stupify", "stupeflip"],
-            "wingardium leviosa": [
-                "wingardium leviosa",
+            SPELL_IMPERIO: [SPELL_IMPERIO, "impero", "imperro"],
+            SPELL_EXPELLIARMUS: [SPELL_EXPELLIARMUS, "expeliarmus", "expeliamus"],
+            SPELL_LUMOS: [SPELL_LUMOS, "lumoss", "lumoz"],
+            SPELL_NOX: [SPELL_NOX, "noks", "noxe"],
+            SPELL_ACCIO: [SPELL_ACCIO, "akio", "acio", "action"],
+            SPELL_STUPEFIX: ["stupefy", "stupefie", "stupify", "stupeflip"],
+            SPELL_WINGARDIUM_LEVIOSA: [
+                SPELL_WINGARDIUM_LEVIOSA,
                 "wingardium levioza",
                 "wingardium levioça",
             ],
-            "avada kedavra": ["avada kedavra", "avada kadavra", "avada cadavra"],
+            SPELL_AVADA_KEDAVRA: [SPELL_AVADA_KEDAVRA, "avada kadavra", "avada cadavra"],
         }
 
         self.recognizer = sr.Recognizer()
