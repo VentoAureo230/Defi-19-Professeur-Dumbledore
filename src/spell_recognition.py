@@ -22,7 +22,7 @@ class SpellRecognizer:
         }
         
         self.variantes = {
-            "imperio": ["impero", "imperro"],
+            "imperio": ["imperio", "impero", "imperro"],
             "expelliarmus": ["expelliarmus", "expeliarmus", "expeliamus"],
             "lumos": ["lumos", "lumoss", "lumoz"],
             "nox": ["nox", "noks", "noxe"],
