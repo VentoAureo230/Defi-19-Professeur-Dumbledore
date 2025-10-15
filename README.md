@@ -1,6 +1,6 @@
 # 🧙‍♂️ Harry Potter Spell Voice Recognition
 
-[![CI/CD Pipeline](https://github.com/votre-username/harrypotter-spell-voice/actions/workflows/ci.yml/badge.svg)](https://github.com/VentoAureo230/Defi-19-Professeur-Dumbledore/actions/workflows/ci.yml)
+[![CI/CD Pipeline](https://github.com/VentoAureo230/Defi-19-Professeur-Dumbledore/actions/workflows/ci.yml/badge.svg)](https://github.com/VentoAureo230/Defi-19-Professeur-Dumbledore/actions/workflows/ci.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=VentoAureo230_Defi-19-Professeur-Dumbledore&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=VentoAureo230_Defi-19-Professeur-Dumbledore)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=VentoAureo230_Defi-19-Professeur-Dumbledore&metric=coverage)](https://sonarcloud.io/summary/new_code?id=VentoAureo230_Defi-19-Professeur-Dumbledore)
 
