@@ -35,13 +35,13 @@ jobs:
         fetch-depth: 0  # Nécessaire pour SonarCloud
     
     - name: 🐍 Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         cache: 'pip'
     
     - name: 📦 Cache dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
@@ -65,7 +65,7 @@ jobs:
         python -c "import pytest; print('✅ Pytest importé avec succès')"
     
     - name: 💾 Upload build artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: python-deps
         path: |
@@ -86,7 +86,7 @@ jobs:
       uses: actions/checkout@v4
     
     - name: 🐍 Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         cache: 'pip'
@@ -111,7 +111,7 @@ jobs:
           --cov-fail-under=80
     
     - name: 📊 Upload coverage reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-reports
         path: |
@@ -139,7 +139,7 @@ jobs:
       uses: actions/checkout@v4
     
     - name: 🐍 Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         cache: 'pip'
@@ -168,7 +168,7 @@ jobs:
         echo "- Date: $(date)" >> regression_report.md
     
     - name: 📤 Upload regression report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: regression-report
         path: regression_report.md
@@ -186,7 +186,7 @@ jobs:
       uses: actions/checkout@v4
     
     - name: 🐍 Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         cache: 'pip'
@@ -235,7 +235,7 @@ jobs:
         fetch-depth: 0  # Shallow clones désactivé pour l'analyse
     
     - name: 📥 Download coverage reports
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: coverage-reports
     
@@ -262,7 +262,7 @@ jobs:
       uses: actions/checkout@v4
     
     - name: 🐍 Setup Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
     
@@ -301,7 +301,7 @@ jobs:
       run: python -m build
     
     - name: 📤 Upload package artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: python-package
         path: dist/
@@ -357,7 +357,7 @@ jobs:
         docker save ${{ env.DOCKER_IMAGE_NAME }}:latest | gzip > docker-image.tar.gz
     
     - name: 📤 Upload Docker image
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: docker-image
         path: docker-image.tar.gz
