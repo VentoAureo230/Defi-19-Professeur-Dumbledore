@@ -359,41 +359,29 @@ jobs:
         container_id=$(docker run -d -p 5000:5000 ${{ env.DOCKER_IMAGE_NAME }}:latest)
         echo "Container ID: $container_id"
         
-        # Attendre que le container soit prêt avec retry
-        echo "⏳ Waiting for container to be ready..."
-        for i in {1..12}; do
-          if docker ps | grep -q $container_id; then
-            echo "✅ Container is running (attempt $i)"
-            break
-          else
-            echo "⏳ Container not ready yet (attempt $i/12)"
-            if [ $i -eq 12 ]; then
-              echo "❌ Container failed to start properly"
-              docker logs $container_id
-              exit 1
-            fi
-            sleep 5
-          fi
-        done
-        
-        # Attendre encore un peu pour que l'application soit prête
-        echo "⏳ Waiting for application to be ready..."
-        sleep 15
+        # Vérifier que le container existe et tourne
+        echo "⏳ Checking container status..."
+        if ! docker inspect $container_id --format='{{.State.Status}}' | grep -q running; then
+          echo "❌ Container not in running state"
+          docker logs $container_id
+          exit 1
+        fi
+        echo "✅ Container is running"
         
         # Test health check depuis l'hôte avec retry
         echo "🔍 Testing health endpoint..."
-        for i in {1..6}; do
+        for i in {1..10}; do
           if curl -f http://localhost:5000/health; then
             echo "✅ Health check passed (attempt $i)"
             break
           else
-            echo "⏳ Health check failed, retrying (attempt $i/6)"
-            if [ $i -eq 6 ]; then
+            echo "⏳ Health check failed, retrying (attempt $i/10)"
+            if [ $i -eq 10 ]; then
               echo "❌ Health check failed after all retries"
               docker logs $container_id
               exit 1
             fi
-            sleep 5
+            sleep 3
           fi
         done
         
