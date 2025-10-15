@@ -75,7 +75,7 @@ class TestSpellRecognizer:
             ("imperio", "👁️"),
             ("nox", "🌑"),
             ("accio", "📦"),
-            ("stupefix", "💥"),
+            ("stupefy", "💥"),
             ("wingardium leviosa", "🕴️"),
             ("avada kedavra", "💀")
         ]

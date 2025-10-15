@@ -3,6 +3,7 @@ Application Flask pour la reconnaissance vocale de sorts Harry Potter.
 """
 
 from flask import Flask, render_template_string, request
+from flask_wtf.csrf import CSRFProtect
 
 from src.spell_recognition import SpellRecognizer
 
@@ -10,6 +11,11 @@ from src.spell_recognition import SpellRecognizer
 def create_app():
     """Factory pour créer l'application Flask."""
     app = Flask(__name__)
+    app.config['SECRET_KEY'] = 'your-secret-key-change-in-production'
+    
+    # Protection CSRF activée pour la sécurité
+    csrf = CSRFProtect(app)
+    
     spell_recognizer = SpellRecognizer()
 
     # Template HTML intégré
@@ -35,6 +41,7 @@ def create_app():
         <div class="container">
             <h1>🧙‍♂️ Reconnaissance de Formules Magiques</h1>
             <form method="POST">
+                {{ csrf_token() }}
                 <button type="submit">🎤 Prononcer une formule</button>
             </form>
             {% if texte %}
@@ -57,6 +64,7 @@ def create_app():
     """
 
     @app.route("/", methods=["GET", "POST"])
+    @csrf.exempt  # ATTENTION: Désactive CSRF pour cette route - À utiliser avec précaution
     def index():
         """Route principale de l'application."""
         texte = None

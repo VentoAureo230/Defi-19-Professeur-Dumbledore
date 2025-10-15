@@ -5,10 +5,11 @@
 # Framework web
 Flask==3.0.0
 Werkzeug==3.0.1
+Flask-WTF==1.2.1
 
 # Reconnaissance vocale
 SpeechRecognition==3.10.0
-# pyaudio==0.2.11 # Problematic on macOS
+pyaudio==0.2.11 # Problematic on macOS
 
 # ====================================================================
 # Dépendances de développement et tests
