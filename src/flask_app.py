@@ -1,7 +1,9 @@
 """
 Application Flask pour la reconnaissance vocale de sorts Harry Potter.
 """
+
 import os
+
 from flask import Flask, render_template_string, request
 from flask_wtf.csrf import CSRFProtect
 
@@ -11,15 +13,18 @@ from src.spell_recognition import SpellRecognizer
 def create_app():
     """Factory pour créer l'application Flask."""
     app = Flask(__name__)
-    
+
     # Configuration sécurisée de la clé secrète via variables d'environnement
-    secret_key = os.environ.get('FLASK_SECRET_KEY')
+    secret_key = os.environ.get("FLASK_SECRET_KEY")
     if not secret_key:
         # Génération d'une clé temporaire pour le développement
         import secrets
+
         secret_key = secrets.token_hex(32)
-        print("⚠️  ATTENTION: Clé secrète générée automatiquement. Définissez FLASK_SECRET_KEY en production!")
-    
+        print(
+            "⚠️  ATTENTION: Clé secrète générée automatiquement. Définissez FLASK_SECRET_KEY en production!"
+        )
+
     app.config["SECRET_KEY"] = secret_key
 
     # Protection CSRF activée pour la sécurité
