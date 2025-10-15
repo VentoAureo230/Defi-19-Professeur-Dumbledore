@@ -1,7 +1,9 @@
 """
 Application Flask pour la reconnaissance vocale de sorts Harry Potter.
 """
+
 from flask import Flask, render_template_string, request
+
 from src.spell_recognition import SpellRecognizer
 
 
@@ -9,9 +11,9 @@ def create_app():
     """Factory pour créer l'application Flask."""
     app = Flask(__name__)
     spell_recognizer = SpellRecognizer()
-    
+
     # Template HTML intégré
-    html_template = '''
+    html_template = """
     <!DOCTYPE html>
     <html>
     <head>
@@ -52,29 +54,29 @@ def create_app():
         </div>
     </body>
     </html>
-    '''
-    
-    @app.route('/', methods=['GET', 'POST'])
+    """
+
+    @app.route("/", methods=["GET", "POST"])
     def index():
         """Route principale de l'application."""
         texte = None
         effet = None
-        
-        if request.method == 'POST':
+
+        if request.method == "POST":
             texte, effet = spell_recognizer.recognize_spell_from_audio()
             if not effet:
                 effet = "Aucune formule magique reconnue."
-        
+
         return render_template_string(html_template, texte=texte, effet=effet)
-    
-    @app.route('/health')
+
+    @app.route("/health")
     def health():
         """Endpoint de santé pour les checks Docker."""
         return {"status": "ok", "spells_count": len(spell_recognizer.get_spells())}
-    
+
     return app
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = create_app()
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host="0.0.0.0", port=5000, debug=False)
