@@ -15,7 +15,6 @@ def create_app():
     # Configuration sécurisée de la clé secrète via variables d'environnement
     secret_key = os.environ.get('FLASK_SECRET_KEY')
     if not secret_key:
-        # Génération d'une clé temporaire pour le développement
         import secrets
         secret_key = secrets.token_hex(32)
         print("⚠️  ATTENTION: Clé secrète générée automatiquement. Définissez FLASK_SECRET_KEY en production!")
