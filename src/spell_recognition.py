@@ -6,7 +6,6 @@ from typing import Dict, List, Optional, Tuple
 
 import speech_recognition as sr
 
-
 # Constantes pour les noms de sorts (évite la duplication)
 SPELL_IMPERIO = "imperio"
 SPELL_EXPELLIARMUS = "expelliarmus"
@@ -46,7 +45,11 @@ class SpellRecognizer:
                 "wingardium levioza",
                 "wingardium levioça",
             ],
-            SPELL_AVADA_KEDAVRA: [SPELL_AVADA_KEDAVRA, "avada kadavra", "avada cadavra"],
+            SPELL_AVADA_KEDAVRA: [
+                SPELL_AVADA_KEDAVRA,
+                "avada kadavra",
+                "avada cadavra",
+            ],
         }
 
         self.recognizer = sr.Recognizer()
