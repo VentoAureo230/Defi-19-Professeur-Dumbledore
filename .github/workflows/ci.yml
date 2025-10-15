@@ -295,11 +295,28 @@ jobs:
         if [ -f "coverage.xml" ]; then
           echo "✅ Coverage file found"
           echo "📊 Coverage file size: $(du -h coverage.xml)"
-          echo "📄 First few lines of coverage.xml:"
-          head -10 coverage.xml
+          echo "📄 Coverage file content validation:"
+          head -20 coverage.xml
+          echo "🔍 Coverage file XML validation:"
+          if command -v xmllint &> /dev/null; then
+            xmllint --noout coverage.xml && echo "✅ XML is well-formed" || echo "❌ XML is malformed"
+          else
+            echo "⚠️ xmllint not available, skipping XML validation"
+          fi
+          echo "📊 Coverage metrics extraction:"
+          grep -o 'line-rate="[^"]*"' coverage.xml | head -5
         else
           echo "❌ Coverage file not found"
+          echo "📁 Available files:"
+          find . -name "*.xml" -type f
           exit 1
+        fi
+        
+        if [ -f "test-results.xml" ]; then
+          echo "✅ Test results file found"
+          echo "📊 Test results file size: $(du -h test-results.xml)"
+        else
+          echo "⚠️ Test results file not found"
         fi
     
     - name: 🔍 SonarCloud Scan
@@ -313,7 +330,10 @@ jobs:
           -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
           -Dsonar.organization=ventoaureo230-1
           -Dsonar.python.coverage.reportPaths=./coverage.xml
-          -Dsonar.coverage.exclusions=tests/**,**/__init__.py,main.py
+          -Dsonar.python.xunit.reportPath=./test-results.xml
+          -Dsonar.coverage.exclusions=tests/**,**/__init__.py,main.py,**/test_*.py
+          -Dsonar.sources=src/
+          -Dsonar.tests=tests/
           -Dsonar.verbose=true
 
   # =========================================================================== 
@@ -461,7 +481,7 @@ jobs:
     needs: [sonarcloud, packaging, dockerize]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     continue-on-error: true
-    
+
     steps:
     - name: 📥 Checkout code
       uses: actions/checkout@v4
