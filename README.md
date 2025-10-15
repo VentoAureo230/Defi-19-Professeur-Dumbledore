@@ -1,9 +1,8 @@
 # 🧙‍♂️ Harry Potter Spell Voice Recognition
 
-[![CI/CD Pipeline](https://github.com/votre-username/harrypotter-spell-voice/actions/workflows/ci.yml/badge.svg)](https://github.com/votre-username/harrypotter-spell-voice/actions/workflows/ci.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=harrypotter-spell-voice&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=harrypotter-spell-voice)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=harrypotter-spell-voice&metric=coverage)](https://sonarcloud.io/summary/new_code?id=harrypotter-spell-voice)
-[![Docker](https://img.shields.io/docker/pulls/votre-username/harrypotter-spell-voice)](https://hub.docker.com/r/votre-username/harrypotter-spell-voice)
+[![CI/CD Pipeline](https://github.com/votre-username/harrypotter-spell-voice/actions/workflows/ci.yml/badge.svg)](https://github.com/VentoAureo230/Defi-19-Professeur-Dumbledore/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=VentoAureo230_Defi-19-Professeur-Dumbledore&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=VentoAureo230_Defi-19-Professeur-Dumbledore)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=VentoAureo230_Defi-19-Professeur-Dumbledore&metric=coverage)](https://sonarcloud.io/summary/new_code?id=VentoAureo230_Defi-19-Professeur-Dumbledore)
 
 Application web Flask de reconnaissance vocale des sorts Harry Potter avec CI/CD complète.
 
@@ -19,7 +18,7 @@ Application web Flask de reconnaissance vocale des sorts Harry Potter avec CI/CD
 
 ## 🏗️ Architecture
 
-```
+```bash
 harrypotter-spell-voice/
 ├── src/                          # Code source principal
 │   ├── spell_recognition.py      # Module de reconnaissance
