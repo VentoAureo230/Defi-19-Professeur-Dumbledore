@@ -13,11 +13,11 @@ rm -rf htmlcov/ .coverage
 
 # Installation des dépendances
 echo "📦 Installation des dépendances..."
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 
 # Exécution des tests avec coverage
 echo "🧪 Exécution des tests avec génération de coverage..."
-python -m pytest tests/unit/ -v \
+python3 -m pytest tests/unit/ -v \
   --cov=src \
   --cov-report=xml:coverage.xml \
   --cov-report=html:htmlcov \
