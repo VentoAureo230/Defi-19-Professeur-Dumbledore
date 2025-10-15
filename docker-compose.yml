@@ -1,0 +1,71 @@
+# ===============================================================================
+# Docker Compose pour Harry Potter Spell Voice Recognition
+# ===============================================================================
+
+version: '3.8'
+
+services:
+  # Service principal de l'application
+  spell-recognition:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: harrypotter-spell-voice:latest
+    container_name: harrypotter-spell-app
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - PYTHONPATH=/app
+    volumes:
+      # Montage pour le développement local (optionnel)
+      - ./src:/app/src:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - spell-network
+
+  # Service nginx pour le reverse proxy (optionnel pour production)
+  nginx:
+    image: nginx:alpine
+    container_name: harrypotter-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - spell-recognition
+    restart: unless-stopped
+    networks:
+      - spell-network
+    profiles:
+      - production
+
+networks:
+  spell-network:
+    driver: bridge
+
+# ===============================================================================
+# Instructions d'utilisation:
+#
+# Développement local:
+#   docker-compose up --build
+#
+# Production avec nginx:
+#   docker-compose --profile production up --build -d
+#
+# Logs:
+#   docker-compose logs -f spell-recognition
+#
+# Arrêt:
+#   docker-compose down
+#
+# Reconstruction complète:
+#   docker-compose down --volumes --remove-orphans
+#   docker-compose up --build
+# ===============================================================================

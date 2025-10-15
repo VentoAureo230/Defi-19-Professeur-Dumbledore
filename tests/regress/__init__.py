@@ -1,0 +1,1 @@
+"""Fichier init pour les tests de régression."""
