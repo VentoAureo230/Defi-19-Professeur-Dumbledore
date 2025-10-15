@@ -40,7 +40,7 @@ def create_app():
     <body>
         <div class="container">
             <h1>🧙‍♂️ Reconnaissance de Formules Magiques</h1>
-            <form method="POST">
+            <form method="POST" action="/recognize">
                 {{ csrf_token() }}
                 <button type="submit">🎤 Prononcer une formule</button>
             </form>
@@ -63,18 +63,18 @@ def create_app():
     </html>
     """
 
-    @app.route("/", methods=["GET", "POST"])
-    @csrf.exempt  # ATTENTION: Désactive CSRF pour cette route - À utiliser avec précaution
+    @app.route("/", methods=["GET"])
     def index():
-        """Route principale de l'application."""
-        texte = None
-        effet = None
+        """Route principale pour afficher le formulaire."""
+        return render_template_string(html_template, texte=None, effet=None)
 
-        if request.method == "POST":
-            texte, effet = spell_recognizer.recognize_spell_from_audio()
-            if not effet:
-                effet = "Aucune formule magique reconnue."
-
+    @app.route("/recognize", methods=["POST"])
+    def recognize_spell():
+        """Route sécurisée pour traiter la reconnaissance vocale."""
+        texte, effet = spell_recognizer.recognize_spell_from_audio()
+        if not effet:
+            effet = "Aucune formule magique reconnue."
+        
         return render_template_string(html_template, texte=texte, effet=effet)
 
     @app.route("/health")

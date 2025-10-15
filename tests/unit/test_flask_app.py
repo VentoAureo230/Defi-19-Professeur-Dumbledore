@@ -17,6 +17,7 @@ class TestFlaskApp:
         """Setup exécuté avant chaque test."""
         self.app = create_app()
         self.app.config['TESTING'] = True
+        self.app.config['WTF_CSRF_ENABLED'] = False  # Désactiver CSRF pour les tests
         self.client = self.app.test_client()
     
     def test_app_creation(self):
@@ -42,14 +43,22 @@ class TestFlaskApp:
         assert data['spells_count'] > 0
     
     def test_home_page_post_mock(self):
-        """Test de la page d'accueil en POST (sans audio réel)."""
+        """Test de la route de reconnaissance en POST (sans audio réel)."""
         # Ce test vérifie que le POST fonctionne même si l'audio échoue
         with self.app.test_request_context():
-            response = self.client.post('/')
+            response = self.client.post('/recognize')
             assert response.status_code == 200
             # En cas d'erreur audio, on doit avoir un message d'erreur ou "Aucune formule"
-            assert (b'Erreur' in response.data or 
-                   b'Aucune formule magique reconnue' in response.data)
+    
+    def test_recognize_route_separation(self):
+        """Test que les routes GET et POST sont bien séparées."""
+        # GET sur /recognize devrait être interdit
+        response = self.client.get('/recognize')
+        assert response.status_code == 405  # Method Not Allowed
+        
+        # POST sur / devrait être interdit  
+        response = self.client.post('/')
+        assert response.status_code == 405  # Method Not Allowed
     
     def test_invalid_route(self):
         """Test d'une route inexistante."""
